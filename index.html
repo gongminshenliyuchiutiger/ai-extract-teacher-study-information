@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>教師研習資訊神提取系統</title> <!-- 靜態定義的瀏覽器標題 -->
+    <title>教師研習資訊神提取系統</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -51,9 +51,8 @@
 
         /* Base Body Styles */
         html {
-            /* 允許整個 HTML 根元素滾動，預設情況下 body 的滾動條會在 html 上顯示 */
             overflow-y: auto; 
-            overflow-x: hidden; /* 隱藏水平滾動條 */
+            overflow-x: hidden; 
         }
 
         body { 
@@ -62,18 +61,15 @@
             color: var(--text-color); 
             transition: background-color 0.3s, color 0.3s; 
             line-height: 1.6; 
-            min-height: 100vh; /* 確保 body 至少佔滿視窗高度 */
+            min-height: 100vh; 
             display: flex;
             flex-direction: column;
-            position: relative; /* For floating emojis */
-            /* 移除 body 上的 overflow: hidden; */
-            /* 讓 HTML 元素來處理滾動，或者將 body 設置為 auto */
-            /* 如果 body 內容超過 100vh，則允許滾動 */
+            position: relative; 
             overflow-y: auto; 
-            overflow-x: hidden; /* 保持隱藏 body 內的水平滾動，避免與 HTML 衝突 */
+            overflow-x: hidden; 
         }
 
-        .container { flex-grow: 1; z-index: 10; position: relative; } /* Allow container to grow, pushing footer down, put above emojis */
+        .container { flex-grow: 1; z-index: 10; position: relative; } 
 
         /* Panel Styles */
         .panel { 
@@ -116,18 +112,18 @@
             transform: translateY(-2px); 
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
         }
-        .btn-secondary-custom { /* For Markdown copy button */
+        .btn-secondary-custom { 
             background: var(--secondary-color); 
             color: white; 
             border-color: var(--secondary-color); 
-            padding: 0.5rem 1rem; /* Smaller padding for inline buttons */
+            padding: 0.5rem 1rem; 
             font-size: 0.875rem;
             border-radius: 0.375rem;
         }
         .btn-secondary-custom:hover:not(:disabled) { 
             background: var(--secondary-hover); 
             border-color: var(--secondary-hover); 
-            transform: translateY(-1px); /* Slightly less aggressive hover */
+            transform: translateY(-1px); 
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
         }
         .btn-outline { 
@@ -158,7 +154,7 @@
             transition: all 0.3s ease; 
             background-color: var(--bg-color); 
             cursor: pointer; 
-            position: relative; /* Essential for overlaying file input */
+            position: relative; 
             overflow: hidden; 
         }
         #drop-zone.drag-over { 
@@ -172,10 +168,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0; /* Fully transparent */
+            opacity: 0; 
             cursor: pointer;
-            z-index: 10; /* Ensure it's above other drop-zone content for clicks */
-            pointer-events: auto; /* Crucial for ensuring it receives pointer events */
+            z-index: 10; 
+            pointer-events: auto; 
         }
         
         /* Modals */
@@ -192,7 +188,6 @@
             z-index: 1000; 
             animation: fadeIn 0.3s; 
         }
-        /* Custom modal for API key tutorial - ensure dark mode compatibility */
         .modal-content-custom { 
             background: var(--panel-bg); 
             padding: 30px; 
@@ -200,11 +195,45 @@
             max-width: 600px; 
             width: 90%; 
             position: relative; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            box-shadow: var(--shadow); 
             max-height: 80vh; 
             overflow-y: auto; 
-            color: var(--text-color); /* Apply theme text color */
+            color: var(--text-color); 
         } 
+        /* Specific modal for transcription editing */
+        #text-edit-modal .modal-content-custom {
+            max-width: 800px; 
+        }
+        #modal-text-editor {
+            resize: vertical;
+            min-height: 200px;
+            font-family: 'Noto Sans TC', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border-color: var(--input-border);
+        }
+        /* Ensure dark mode for modal text elements */
+        [data-theme="dark"] .modal-content-custom p,
+        [data-theme="dark"] .modal-content-custom label,
+        [data-theme="dark"] .modal-content-custom strong,
+        [data-theme="dark"] .modal-content-custom li {
+            color: var(--text-color);
+        }
+        [data-theme="dark"] .modal-content-custom h3 {
+            color: var(--heading-color);
+        }
+        [data-theme="dark"] .modal-content-custom .text-blue-600 { 
+            color: var(--primary-color);
+        }
+        [data-theme="dark"] .modal-content-custom .text-yellow-700 { 
+            color: #fcd34d; 
+        }
+        [data-theme="dark"] .modal-content-custom .bg-yellow-50 {
+            background-color: #4a5c70; 
+        }
+
         .modal-close { 
             position: absolute; 
             top: 10px; 
@@ -287,8 +316,8 @@
             padding: 0.75rem;
             border-radius: 0.5rem;
             border: 1px solid var(--border-color);
-            background-color: var(--panel-bg); /* Match panel background */
-            color: var(--text-color); /* Match theme text color */
+            background-color: var(--panel-bg); 
+            color: var(--text-color); 
             transition: all 0.2s ease-in-out;
         }
         .form-control:focus {
@@ -305,107 +334,117 @@
         
         /* Markdown Output Textarea */
         #markdown-output {
-            resize: vertical; /* Allow vertical resizing */
-            min-height: 150px; /* Minimum height */
-            font-family: 'Noto Sans TC', monospace; /* More readable font for text content, monospace for code-like */
-            white-space: pre-wrap; /* Preserve whitespace and wrap text */
-            word-wrap: break-word; /* Break long words */
-            height: 100%; /* Fill available height */
+            resize: vertical; 
+            min-height: 150px; 
+            font-family: 'Noto Sans TC', monospace; 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            height: 100%; 
+        }
+        /* Dark mode compatibility for markdown output */
+        [data-theme="dark"] #markdown-output {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border-color: var(--input-border);
         }
 
         /* Dark mode compatibility for specific text elements */
-        header h1 {
-            color: var(--heading-color);
-        }
-        header p {
-            color: var(--muted-color);
-        }
+        header h1 { color: var(--heading-color); }
+        header p { color: var(--muted-color); }
         #status-log {
-            background-color: var(--input-bg); /* Use input background for log */
-            color: var(--input-text); /* Ensure base text color is light in dark mode for any direct content */
+            background-color: var(--input-bg); 
+            color: var(--input-text); 
             border-color: var(--border-color);
-            /* Custom scrollbar for Webkit browsers */
-            scrollbar-width: thin; /* Firefox */
-            scrollbar-color: var(--primary-color) var(--input-bg); /* Firefox scrollbar color */
+            scrollbar-width: thin; 
+            scrollbar-color: var(--primary-color) var(--input-bg); 
         }
-        #status-log::-webkit-scrollbar {
-            width: 8px; /* Width of the scrollbar */
-            height: 8px; /* Height of horizontal scrollbar */
-        }
-        #status-log::-webkit-scrollbar-track {
-            background: var(--input-bg); /* Track background */
-            border-radius: 10px;
-        }
+        #status-log::-webkit-scrollbar { width: 8px; height: 8px; }
+        #status-log::-webkit-scrollbar-track { background: var(--input-bg); border-radius: 10px; }
         #status-log::-webkit-scrollbar-thumb {
-            background: var(--primary-color); /* Scrollbar thumb color */
+            background: var(--primary-color); 
             border-radius: 10px;
-            border: 2px solid var(--input-bg); /* Add border for better contrast with track */
+            border: 2px solid var(--input-bg); 
         }
-        #status-log::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-hover); /* Hover color */
-        }
+        #status-log::-webkit-scrollbar-thumb:hover { background: var(--primary-hover); }
 
         /* API Key label text color override */
-        label[for="user-api-key"] {
-            color: var(--text-color); /* Ensure this label uses theme text color */
-        }
-        /* API Key Modal text to ensure readability in dark mode */
-        #api-key-modal .modal-content-custom .space-y-3 p,
-        #api-key-modal .modal-content-custom ol li,
-        #api-key-modal .modal-content-custom strong {
-            color: var(--text-color); 
-        }
-        #api-key-modal .modal-content-custom a {
-             color: var(--primary-color);
-        }
-        #api-key-modal .modal-content-custom .text-yellow-700 {
-            /* In dark mode, ensure this is a bright variant of yellow */
-            color: var(--text-color); /* Change to theme text color to ensure readability */
-        }
-        #api-key-modal .modal-content-custom .bg-yellow-50 {
-            background-color: var(--input-bg); /* Make warning background dark */
-        }
+        label[for="user-api-key"] { color: var(--text-color); }
 
         /* Floating Emojis */
         #floating-emojis-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Do not block interaction with content */
-            z-index: 1; /* Below content, above body background */
-            overflow: hidden; /* **關鍵修正：將溢出隱藏在這裡，防止 emoji 影響 body 滾動** */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; overflow: hidden; 
         }
-
         .floating-emoji {
-            position: absolute;
-            font-size: clamp(1.5rem, 3vw, 3rem); /* Responsive font size */
-            opacity: 0;
-            animation: float-up linear forwards;
-            white-space: nowrap; /* Prevent emoji from wrapping */
-            transform-origin: bottom center; /* For rotation */
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.1)); /* Subtle shadow for visibility */
-            /* Removed default color here, using inline Tailwind colors for variety */
+            position: absolute; font-size: clamp(1.5rem, 3vw, 3rem); opacity: 0;
+            animation: float-up linear forwards; white-space: nowrap; 
+            transform-origin: bottom center; filter: drop-shadow(0 0 5px rgba(0,0,0,0.1));
+        }
+        @keyframes float-up {
+            0% { transform: translateY(0vh) scale(0.5) rotateZ(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; transform: translateY(-80vh) scale(1.0) rotateZ(360deg); }
+            100% { transform: translateY(-100vh) scale(1.2) rotateZ(720deg); opacity: 0; }
         }
 
-        @keyframes float-up {
-            0% {
-                transform: translateY(0vh) scale(0.5) rotateZ(0deg);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.8;
-            }
-            80% {
-                opacity: 0.8;
-                transform: translateY(-80vh) scale(1.0) rotateZ(360deg);
-            }
-            100% {
-                transform: translateY(-100vh) scale(1.2) rotateZ(720deg);
-                opacity: 0;
-            }
+        /* Loading Spinner for Source List Item */
+        .loading-spinner {
+            display: inline-block;
+            width: 1em; 
+            height: 1em; 
+            border: 2px solid rgba(128, 128, 128, .3); 
+            border-radius: 50%;
+            border-top-color: var(--primary-color); 
+            animation: spin .8s ease-in-out infinite;
+            -webkit-animation: spin .8s ease-in-out infinite;
+            margin-left: 0.5rem;
+            vertical-align: middle; 
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @-webkit-keyframes spin { to { -webkit-transform: rotate(360deg); } }
+
+        /* Style for the Edit button in the source list */
+        .edit-source-btn {
+            background: none;
+            border: none;
+            padding: 0.2rem; 
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: color 0.2s, background-color 0.2s;
+            border-radius: 0.25rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1; 
+            font-size: 1rem; 
+        }
+        .edit-source-btn:hover {
+            color: var(--primary-hover);
+            background-color: var(--border-color);
+        }
+        .edit-source-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: transparent;
+        }
+
+        /* Source list item adjustments */
+        .source-item .flex-grow {
+            min-width: 0; 
+        }
+        .source-item .text-sm.font-medium {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        /* Ensure gap consistency for actions */
+        .source-item .flex.items-center.gap-2 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; 
+        }
+
+        @media (max-width: 768px) { #mascot { width: 80px; } }
     </style>
 </head>
 <body class="text-gray-800" data-theme="light">
@@ -416,33 +455,42 @@
     <div class="container mx-auto px-4 py-8 max-w-7xl">
         <header class="mb-8 text-center relative">
             <h1 class="text-4xl font-bold mb-2 flex items-center justify-center gap-3"><i class="fa-solid fa-chalkboard-user text-blue-600"></i>教師研習資訊神提取系統</h1>
-            <p class="text-lg">智慧分析 PDF/圖片文件，自動神提取教師研習資訊</p>
+            <p class="text-lg">智慧分析 PDF/圖片/純文字，整合提取教師研習資訊</p>
             <button class="theme-switcher" id="theme-toggle" title="切換主題"><i class="fa-solid fa-sun"></i></button>
         </header>
 
-        <div id="ai-panel-container"> <!-- This container is always visible -->
+        <div id="ai-panel-container">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Left Panel: Upload and Settings -->
                 <section class="panel upload-panel">
-                    <h2 class="panel-header">上傳檔案與設定</h2>
+                    <h2 class="panel-header">上傳檔案與貼上文字</h2>
                     <div id="drop-zone" class="mb-4">
                         <i class="fas fa-file-arrow-up text-5xl text-blue-500 mb-4"></i>
-                        <p class="text-gray-600 dark:text-gray-300">將 PDF/圖片 檔案拖曳至此，或點擊選擇 (可多選)</p>
-                        <!-- File input covers the drop zone, is transparent and functional -->
-                        <input type="file" id="file-upload" accept=".pdf,image/*" multiple> 
+                        <p class="text-gray-600 dark:text-gray-300"><strong class="text-blue-500 dark:text-blue-300">將 PDF/圖片 檔案拖曳至此，或點擊選擇 (可多選)。<br>所有檔案皆可隨時編輯。</strong></p>
+                        <input type="file" id="file-upload" accept=".pdf,image/*" multiple>
                     </div>
 
-                    <div id="file-list" class="space-y-2 mb-4">
-                        <!-- Uploaded file items will be inserted here -->
+                    <div class="mb-6">
+                        <label for="user-api-key" class="font-medium text-gray-700 dark:text-gray-200">直接貼上文字內容</label>
+                        <textarea id="plain-text-input" class="form-control resize-y min-h-[100px]" placeholder="或將純文字內容貼上至此..."></textarea>
+                        <button id="add-text-btn" class="btn btn-secondary-custom w-full mt-3">
+                            <i class="fa-solid fa-plus-square"></i> 將文字加入清單
+                        </button>
+                    </div>
+
+                    <div id="source-list" class="space-y-2 mb-6">
+                        <!-- Uploaded file/text items will be inserted here -->
                     </div>
                     
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <label for="user-api-key" class="font-medium text-gray-700 dark:text-gray-200">Google Gemini API 金鑰</label>
-                            <span id="api-tutorial-link" class="text-sm text-blue-600 hover:underline cursor-pointer">(如何取得？)</span>
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="user-api-key" class="font-medium text-gray-700 dark:text-gray-200">Google Gemini API 金鑰</label>
+                                <span id="api-tutorial-link" class="text-sm text-blue-600 hover:underline cursor-pointer">(如何取得？)</span>
+                            </div>
+                            <input type="password" id="user-api-key" placeholder="貼上您的 Gemini API 金鑰" class="form-control">
+                            <p class="text-xs text-gray-500 mt-1 dark:text-gray-400">金鑰僅儲存在您的瀏覽器中，不會上傳至任何伺服器。</p>
                         </div>
-                        <input type="password" id="user-api-key" placeholder="貼上您的 API 金鑰" class="form-control">
-                        <p class="text-xs text-gray-500 mt-1 dark:text-gray-400">金鑰僅儲存在您的瀏覽器中，不會上傳至任何伺服器。</p>
                     </div>
                     
                     <div class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 flex flex-wrap gap-4">
@@ -455,9 +503,8 @@
                     </div>
 
                     <div class="border-t pt-4 mt-6">
-                        <label for="user-api-key" class="font-medium text-gray-700 dark:text-gray-200">處理狀態</label>
-                        <!-- 確保 h-32 提供固定高度，且 overflow-y-auto 啟用滾動 -->
-                        <div id="status-log" class="w-full h-32 p-3 border border-gray-200 rounded-lg font-mono text-sm overflow-y-auto">
+                        <label for="user-api-key" class="font-medium text-gray-700 dark:text-gray-200">系統狀態</label>
+                        <div id="status-log" class="w-full h-32 p-3 border border-gray-200 rounded-lg font-mono text-sm overflow-y-auto dark:border-gray-700">
                             <!-- 初始訊息會由 JS 寫入 -->
                         </div>
                     </div>
@@ -466,9 +513,8 @@
                 <!-- Right Panel: AI Output Editor and Download -->
                 <section class="panel results-panel">
                     <h2 class="panel-header">AI神提取結果</h2>
-                    <!-- Markdown Output Area -->
                     <div class="flex-grow flex flex-col space-y-4">
-                        <textarea id="markdown-output" class="form-control flex-grow" rows="15" placeholder="AI神提取結果將以 Markdown 格式顯示於此，您可以編輯後複製..."></textarea>
+                        <textarea id="markdown-output" class="form-control flex-grow" rows="15" placeholder="AI 研習資訊提取結果將以 Markdown 格式顯示於此，您可以編輯後複製..."></textarea>
                         <button id="copy-markdown-btn" class="btn btn-secondary-custom">
                             <i class="fa-solid fa-clipboard"></i> 複製 Markdown
                         </button>
@@ -481,7 +527,7 @@
     
     <footer class="text-center mt-10 text-gray-500 dark:text-gray-400 text-sm pb-6">Copyright © Liyuchiutiger Gongminshen</footer>
 
-    <img id="mascot" src="image/LiyuChillGuy.svg" alt="LiyuChillGuy Mascot">
+    <img id="mascot" src="image/LiyuChillGuy.svg" alt="吉祥物">
 
     <!-- API Key Modal -->
     <div class="modal-overlay" id="api-key-modal">
@@ -504,15 +550,37 @@
         </div>
     </div>
 
+    <!-- Generic Text Editor Modal (for text sources like pasted text or PDF/Image OCR results) -->
+    <div class="modal-overlay" id="text-edit-modal">
+        <div class="modal-content-custom">
+            <span class="modal-close" id="text-edit-modal-close">&times;</span>
+            <h3 class="text-xl font-bold text-blue-600 mb-4">編輯文字內容</h3>
+            <p class="text-gray-700 dark:text-gray-200 mb-2">來源名稱: <strong id="modal-text-filename"></strong></p>
+            <label for="modal-text-editor" class="font-medium text-gray-700 dark:text-gray-200 mb-2 block">內容 (可編輯)</label>
+            <textarea id="modal-text-editor" class="form-control mb-4 flex-grow"></textarea>
+            <div class="flex justify-end gap-3">
+                <button id="modal-text-cancel-btn" class="btn btn-outline">
+                    <i class="fa-solid fa-xmark"></i> 取消
+                </button>
+                <button id="modal-text-confirm-btn" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> 確認編輯
+                </button>
+            </div>
+        </div>
+    </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
+    // UI elements references
     const ui = {
         themeToggle: document.getElementById('theme-toggle'),
         dropZone: document.getElementById('drop-zone'),
         fileUpload: document.getElementById('file-upload'), 
-        fileList: document.getElementById('file-list'),
+        sourceList: document.getElementById('source-list'), // Renamed from fileList
+        plainTextInput: document.getElementById('plain-text-input'), // New
+        addTextBtn: document.getElementById('add-text-btn'), // New
         apiKeyInput: document.getElementById('user-api-key'),
         statusLog: document.getElementById('status-log'),
         startExtractionBtn: document.getElementById('start-extraction-btn'),
@@ -521,24 +589,146 @@ document.addEventListener('DOMContentLoaded', () => {
         openApiKeyModalLink: document.getElementById('api-tutorial-link'),
         closeApiKeyModalBtn: document.getElementById('api-key-modal-close'),
         mascot: document.getElementById('mascot'),
-        markdownOutput: document.getElementById('markdown-output'), // Reference to the textarea
-        copyMarkdownBtn: document.getElementById('copy-markdown-btn'), // Reference to copy button
-        floatingEmojisContainer: document.getElementById('floating-emojis-container'), // Floating emojis container
+        markdownOutput: document.getElementById('markdown-output'),
+        copyMarkdownBtn: document.getElementById('copy-markdown-btn'),
+        floatingEmojisContainer: document.getElementById('floating-emojis-container'),
+
+        // Elements for Generic Text Editor Modal (retained/adapted)
+        textEditModal: document.getElementById('text-edit-modal'),
+        closeTextEditModalBtn: document.getElementById('text-edit-modal-close'),
+        modalTextFilename: document.getElementById('modal-text-filename'),
+        modalTextEditor: document.getElementById('modal-text-editor'),
+        modalTextConfirmBtn: document.getElementById('modal-text-confirm-btn'),
+        modalTextCancelBtn: document.getElementById('modal-text-cancel-btn'),
     };
 
+    // Application state
     const state = {
-        files: new Map(), // Map<id, { file: File, id: string, status: string, text: string | null, data: object[] | null }>
-        fileIdCounter: 0,
+        // Map<id, { type: 'pdf' | 'image' | 'text', content: File | string, id: string, status: string, extractedText: string | null, name: string }>
+        sources: new Map(), // Renamed from files
+        sourceIdCounter: 0, // Renamed from fileIdCounter
         allExtractedResults: [], // Holds results from AI before displaying
-        currentUser: { name: '匿名使用者', role: '公開使用者' } // For console logging
+        currentUser: { name: '匿名使用者', role: '公開使用者' },
+        isProcessingInProgress: false, // General processing state (no audio transcription specific here)
+        currentEditingSourceId: null, // To track which source is being edited in generic text modal
     };
 
+    // External libraries (pdf.js, Tesseract.js)
     const libraries = {
         pdfjsLib: window.pdfjsLib,
         Tesseract: window.Tesseract,
     };
 
-    // --- Mascot & Theme Toggle Logic ---
+    // --- Utility Functions ---
+
+    // Logging function for client-side demo (outputs to status log and console)
+    function logStatus(message, type = 'info') {
+        const timestamp = new Date().toLocaleTimeString('zh-TW', { hour12: false });
+        const logEntry = document.createElement('p');
+        
+        logEntry.className = `py-1`; 
+        
+        let messageTextColorClass = 'text-gray-700 dark:text-gray-200';
+        if (type === 'error') {
+            messageTextColorClass = 'text-red-600 dark:text-red-300';
+        } else if (type === 'success') {
+            messageTextColorClass = 'text-green-600 dark:text-green-300';
+        } else if (type === 'warn') {
+            messageTextColorClass = 'text-yellow-600 dark:text-yellow-300';
+        }
+
+        logEntry.innerHTML = `<span class="text-gray-500 dark:text-gray-400">[${timestamp}]</span> <span class="${messageTextColorClass}">&gt; ${message}</span>`;
+        ui.statusLog.appendChild(logEntry);
+        ui.statusLog.scrollTop = ui.statusLog.scrollHeight;
+        
+        // Also log to console for debugging
+        if (type === 'error') console.error(`[STATUS] ${message}`);
+        else if (type === 'success') console.log(`[STATUS] ${message}`);
+        else if (type === 'warn') console.warn(`[STATUS] ${message}`);
+        else console.info(`[STATUS] ${message}`);
+    }
+
+    // Logging function for client-side demo (outputs to console only) - separate from status log
+    function logActivity(userName, userRole, activityType, description) {
+        const timestamp = new Date().toLocaleString('zh-TW', { hour12: false });
+        console.log(`[ACTIVITY LOG - Frontend] ${timestamp} | User: ${userName} (${userRole}) | Type: ${activityType} | Desc: ${description}`);
+    }
+    
+    // Helper to prevent default drag/drop behaviors
+    function preventDefaults(e) { 
+        e.preventDefault(); 
+        e.stopPropagation(); 
+    }
+
+    // Enables/disables main UI buttons and inputs based on overall state
+    function updateExtractionButtonState() {
+        let hasUnpreparedSource = false;
+        let reasons = []; // For debugging and title attribute
+
+        // Check if there are any sources that are not yet ready for AI processing
+        if (state.sources.size === 0) {
+            reasons.push("無任何檔案或文字輸入");
+        } else {
+            for (const sourceItem of state.sources.values()) {
+                let itemReason = '';
+                if (!sourceItem.extractedText || sourceItem.extractedText.trim().length === 0) {
+                    itemReason = `來源 "${sourceItem.name}" 內容為空`;
+                } else if (sourceItem.status.includes('失敗') || sourceItem.status.includes('API金鑰缺失') || sourceItem.status.includes('提取中') || sourceItem.status.includes('等待處理')) { 
+                    itemReason = `來源 "${sourceItem.name}" 狀態為 "${sourceItem.status.replace(/<[^>]*>/g, '')}"`; // Remove HTML from status for reason
+                }
+
+                if (itemReason) {
+                    hasUnpreparedSource = true;
+                    reasons.push(itemReason);
+                }
+            }
+        }
+        
+        const isModalOpen = ui.textEditModal.style.display === 'flex'; // Only text modal now
+        if (isModalOpen) {
+            reasons.push("有編輯視窗開啟中");
+        }
+        if (state.isProcessingInProgress) { // General processing state
+            reasons.push("有檔案正在處理中");
+        }
+        if (!ui.apiKeyInput.value.trim()) {
+            reasons.push("Google Gemini API 金鑰未填寫");
+        }
+
+        // Determine button disabled state
+        const shouldDisable = state.sources.size === 0 || hasUnpreparedSource || state.isProcessingInProgress || isModalOpen || !ui.apiKeyInput.value.trim();
+
+        ui.startExtractionBtn.disabled = shouldDisable;
+        ui.clearAllBtn.disabled = state.sources.size === 0 || state.isProcessingInProgress || isModalOpen;
+
+        // Provide a clearer title for disabled "Start" button
+        if (shouldDisable) {
+            ui.startExtractionBtn.title = "無法開始AI提取：\n" + reasons.join("\n");
+        } else {
+            ui.startExtractionBtn.title = "開始AI神提取";
+        }
+
+        // Disable file upload and text input if processing is in progress or a modal is open
+        ui.fileUpload.disabled = state.isProcessingInProgress || isModalOpen;
+        ui.plainTextInput.disabled = state.isProcessingInProgress || isModalOpen;
+        ui.addTextBtn.disabled = state.isProcessingInProgress || isModalOpen;
+
+        // Disable individual remove/edit buttons based on global processing state or if any modal is open
+        document.querySelectorAll('.remove-source-btn').forEach(btn => btn.disabled = state.isProcessingInProgress || isModalOpen);
+        document.querySelectorAll('.edit-source-btn').forEach(btn => btn.disabled = state.isProcessingInProgress || isModalOpen);
+    }
+
+
+    // Updates the status for a specific source item in the UI and state
+    function updateSourceStatus(id, status, type = 'info') {
+        const sourceItem = state.sources.get(id);
+        if (sourceItem) {
+            sourceItem.status = status;
+            renderSourceListItem(id); // Re-render to update the status text/spinner
+        }
+    }
+
+    // --- Mascot & Theme Logic ---
     const audioManager = { 
         ctx: null,
         init: function() {
@@ -611,29 +801,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateThemeIcon(theme) { ui.themeToggle.innerHTML = theme === 'light' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>'; }
-    // --- End Mascot & Theme Toggle Logic ---
 
-    // --- Floating Emojis Logic ---
-    // Font Awesome icons for floating elements, including academic and stationery themes
     const floatingEmojis = [
-        '<i class="fa-solid fa-chalkboard-user text-blue-500"></i>', // 教師與黑板
-        '<i class="fa-solid fa-book-open text-purple-500"></i>', // 打開的書
-        '<i class="fa-solid fa-lightbulb text-yellow-500"></i>', // 燈泡，點子
-        '<i class="fa-solid fa-pencil text-red-500"></i>', // 鉛筆
-        '<i class="fa-solid fa-calendar-alt text-green-500"></i>', // 日曆，時間
-        '<i class="fa-solid fa-location-dot text-orange-500"></i>', // 地點
-        '<i class="fa-solid fa-user-tie text-teal-500"></i>', // 專業人士
-        '<i class="fa-solid fa-laptop-code text-indigo-500"></i>', // 程式碼或線上學習
-        '<i class="fa-solid fa-comments text-pink-500"></i>', // 討論、交流
-        '<i class="fa-solid fa-clock text-gray-500"></i>', // 時間、時數
-        '<i class="fa-solid fa-certificate text-amber-500"></i>', // 證書、學分
-        '<i class="fa-solid fa-bullhorn text-cyan-500"></i>', // 公告、通知
-        '<i class="fa-solid fa-handshake-angle text-emerald-500"></i>', // 協助、合作
-        '<i class="fa-solid fa-users text-violet-500"></i>', // 團隊、參與者
-        '<i class="fa-solid fa-bell text-zinc-500"></i>', // 提醒、通知
-        '<i class="fa-solid fa-graduation-cap text-blue-600"></i>', // 學位帽，教育
-        '<i class="fa-solid fa-file-lines text-brown-500"></i>', // 文件
-        '<i class="fa-solid fa-money-check-dollar text-lime-500"></i>', // 費用
+        '<i class="fa-solid fa-chalkboard-user text-blue-500"></i>',
+        '<i class="fa-solid fa-book-open text-purple-500"></i>',
+        '<i class="fa-solid fa-lightbulb text-yellow-500"></i>',
+        '<i class="fa-solid fa-pencil text-red-500"></i>',
+        '<i class="fa-solid fa-calendar-alt text-green-500"></i>',
+        '<i class="fa-solid fa-location-dot text-orange-500"></i>',
+        '<i class="fa-solid fa-user-tie text-teal-500"></i>',
+        '<i class="fa-solid fa-laptop-code text-indigo-500"></i>',
+        '<i class="fa-solid fa-comments text-pink-500"></i>',
+        '<i class="fa-solid fa-clock text-gray-500"></i>',
+        '<i class="fa-solid fa-certificate text-amber-500"></i>',
+        '<i class="fa-solid fa-bullhorn text-cyan-500"></i>',
+        '<i class="fa-solid fa-handshake-angle text-emerald-500"></i>',
+        '<i class="fa-solid fa-users text-violet-500"></i>',
+        '<i class="fa-solid fa-bell text-zinc-500"></i>',
+        '<i class="fa-solid fa-graduation-cap text-blue-600"></i>',
+        '<i class="fa-solid fa-file-lines text-brown-500"></i>',
+        '<i class="fa-solid fa-money-check-dollar text-lime-500"></i>',
     ];
     let emojiInterval;
 
@@ -642,38 +829,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const emojiEl = document.createElement('span');
         emojiEl.classList.add('floating-emoji');
-        // 使用 innerHTML 來插入 Font Awesome 圖示
         emojiEl.innerHTML = floatingEmojis[Math.floor(Math.random() * floatingEmojis.length)];
         
-        // Randomize initial position (start from bottom, across width)
         const startX = Math.random() * 100; // 0-100vw
         emojiEl.style.left = `${startX}vw`;
         emojiEl.style.bottom = `${-10 - Math.random() * 10}vh`; // Start slightly below screen
 
-        // Randomize animation duration and delay
         const duration = 8 + Math.random() * 7; // 8 to 15 seconds
         const delay = Math.random() * 3; // 0 to 3 seconds delay
         emojiEl.style.animationDuration = `${duration}s`;
         emojiEl.style.animationDelay = `${delay}s`;
         
-        // Randomize initial rotation for a more natural look
         const initialRotation = Math.random() * 360;
         emojiEl.style.transform = `translateY(0vh) scale(0.5) rotateZ(${initialRotation}deg)`;
 
         ui.floatingEmojisContainer.appendChild(emojiEl);
 
-        // Remove emoji after animation finishes to prevent DOM clutter
         emojiEl.addEventListener('animationend', () => {
             emojiEl.remove();
         });
     }
 
     function startFloatingEmojis() {
-        // Clear any existing interval to prevent duplicates
         if (emojiInterval) clearInterval(emojiInterval);
-        // Create an emoji immediately, then every X seconds
         createFloatingEmoji(); 
-        emojiInterval = setInterval(createFloatingEmoji, 1500 + Math.random() * 1000); // Create every 1.5-2.5 seconds
+        emojiInterval = setInterval(createFloatingEmoji, 1500 + Math.random() * 1000);
     }
 
     function stopFloatingEmojis() {
@@ -681,13 +861,13 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(emojiInterval);
             emojiInterval = null;
         }
-        // Immediately remove all floating emojis
         if (ui.floatingEmojisContainer) {
             ui.floatingEmojisContainer.innerHTML = '';
         }
     }
-    // --- End Floating Emojis Logic ---
 
+
+    // --- Core Application Logic ---
 
     // Initial setup when the page loads
     function init() {
@@ -696,14 +876,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.setAttribute('data-theme', savedTheme);
         updateThemeIcon(savedTheme);
 
-        // 確保初始訊息也顯示在狀態日誌中
-        logStatus('系統初始化完成，請上傳 PDF 或圖片檔案。', 'info');
+        // Load API key from localStorage
+        ui.apiKeyInput.value = localStorage.getItem('geminiApiKey') || '';
+
+        logStatus('系統初始化完成。請上傳 PDF/圖片 檔案或貼上文字，開始提取研習資訊。', 'info');
         
         bindEvents();
-        updateExtractionButtonState();
-        showWelcomeScreen(); // This will now correctly use markdownOutput
+        updateExtractionButtonState(); // Initial button state
+        showWelcomeScreen();
 
-        startFloatingEmojis(); // Start the background floating emojis
+        startFloatingEmojis();
     }
 
     // Bind all event listeners
@@ -715,26 +897,38 @@ document.addEventListener('DOMContentLoaded', () => {
         ['dragenter', 'dragover'].forEach(e => ui.dropZone.addEventListener(e, () => ui.dropZone.classList.add('drag-over'), false));
         ['dragleave', 'drop'].forEach(e => ui.dropZone.addEventListener(e, () => ui.dropZone.classList.remove('drag-over'), false));
         
-        // Handle drop event: assign files to input and trigger change event
         ui.dropZone.addEventListener('drop', e => {
             if (e.dataTransfer.files.length > 0) {
                 ui.fileUpload.files = e.dataTransfer.files; 
                 const changeEvent = new Event('change');
-                ui.fileUpload.dispatchEvent(changeEvent); // Manually dispatch change event
+                ui.fileUpload.dispatchEvent(changeEvent);
             }
         }, false);
         
-        // Handle file input change (for both click and drop events)
         ui.fileUpload.addEventListener('change', e => {
             if (e.target.files.length > 0) {
                 logActivity(state.currentUser.name, state.currentUser.role, '檔案上傳', `上傳 ${e.target.files.length} 個檔案`);
             }
-            handleFiles(e.target.files);
-            // Clear the input value to allow selecting the same file again
-            e.target.value = ''; 
+            for (const file of e.target.files) {
+                handleSingleSource(file); // Call with file object
+            }
+            e.target.value = ''; // Clear the input to allow re-selecting same file
         });
 
-        // Buttons
+        // Handle plain text input
+        ui.addTextBtn.addEventListener('click', () => {
+            const text = ui.plainTextInput.value.trim();
+            if (text) {
+                addSourceEntry({ type: 'text', content: text, name: `手動貼上文字 ${state.sourceIdCounter + 1}`, status: '已準備', extractedText: text });
+                ui.plainTextInput.value = ''; // Clear the text area
+                logStatus(`已加入手動貼上文字。`, 'info');
+                logActivity(state.currentUser.name, state.currentUser.role, '文字貼上', `加入手動貼上文字`);
+            } else {
+                logStatus('請先在文字框中貼上內容。', 'error');
+            }
+        });
+
+        // Main action buttons
         ui.startExtractionBtn.addEventListener('click', startAiProcessing);
         ui.clearAllBtn.addEventListener('click', clearAll);
         ui.copyMarkdownBtn.addEventListener('click', () => {
@@ -746,219 +940,386 @@ document.addEventListener('DOMContentLoaded', () => {
         ui.openApiKeyModalLink.addEventListener('click', () => ui.apiKeyModal.style.display = 'flex');
         ui.closeApiKeyModalBtn.addEventListener('click', () => ui.apiKeyModal.style.display = 'none');
         ui.apiKeyModal.addEventListener('click', e => { if (e.target === ui.apiKeyModal) ui.apiKeyModal.style.display = 'none'; });
-    }
+        ui.apiKeyInput.addEventListener('input', () => localStorage.setItem('geminiApiKey', ui.apiKeyInput.value.trim()));
 
-    function preventDefaults(e) { 
-        e.preventDefault(); 
-        e.stopPropagation(); 
-    }
-    
-    // Display welcome message in results panel (now using markdownOutput)
-    function showWelcomeScreen() {
-        ui.markdownOutput.value = `歡迎使用教師研習資訊神提取系統！
-        
-請將 PDF 或圖片檔案拖曳到左側的虛線框中，或點擊選擇檔案。
-上傳檔案後，填入您的 Google Gemini API 金鑰，然後點擊「開始AI神提取」按鈕。
-AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 Markdown 格式顯示在這裡。
-
-祝您一切業務順利，使用愉快！:)`;
-        ui.markdownOutput.placeholder = 'AI 提取結果將以 Markdown 格式顯示於此，您可以編輯後複製...';
-        ui.copyMarkdownBtn.style.display = 'none'; // Hide copy button initially
-    }
-
-    // Process selected files from input or drag/drop
-    function handleFiles(files) {
-        if (!files || files.length === 0) {
-            logStatus('未選擇檔案或取消選擇。', 'info');
-            return;
-        }
-        for (const file of files) {
-            if (!file.type.includes('pdf') && !file.type.includes('image')) {
-                logStatus(`錯誤：檔案 "${file.name}" 不是 PDF 或圖片格式，已忽略。`, 'error');
-                continue;
+        // Generic Text Editor Modal Event Listeners
+        ui.closeTextEditModalBtn.addEventListener('click', () => { ui.textEditModal.style.display = 'none'; updateExtractionButtonState(); });
+        ui.textEditModal.addEventListener('click', e => {
+            if (e.target === ui.textEditModal) {
+                ui.textEditModal.style.display = 'none';
+                updateExtractionButtonState();
             }
-            const id = `file-${state.fileIdCounter++}`;
-            state.files.set(id, { file, id, status: '等待處理', text: null, data: null });
-            renderFileListItem(id);
-            logStatus(`已加入檔案: ${file.name}`);
-        }
-        updateExtractionButtonState();
-    }
+        });
+        ui.modalTextCancelBtn.addEventListener('click', () => { ui.textEditModal.style.display = 'none'; updateExtractionButtonState(); });
+        ui.modalTextConfirmBtn.addEventListener('click', () => {
+            const currentSourceId = state.currentEditingSourceId;
+            const currentSourceItem = state.sources.get(currentSourceId);
+            if (!currentSourceItem || currentSourceItem.type === 'audio') { // Should not be audio type in this system
+                logStatus("錯誤：無當前文字來源可供確認。", 'error');
+                ui.textEditModal.style.display = 'none';
+                updateExtractionButtonState();
+                return;
+            }
 
-    // Render a single file item in the file list
-    function renderFileListItem(id) {
-        const fileItem = state.files.get(id);
-        const icon = fileItem.file.type.includes('pdf') ? 'fa-file-pdf' : 'fa-image';
-        const newDiv = document.createElement('div');
-        newDiv.id = `file-item-${id}`;
-        newDiv.className = 'flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-sm';
-        newDiv.innerHTML = `
-            <div class="flex items-center">
-                <i class="fas ${icon} text-red-500 mr-3"></i>
-                <span class="text-sm font-medium text-gray-800 dark:text-gray-100">${fileItem.file.name}</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <span id="file-status-${id}" class="text-xs text-gray-500 dark:text-gray-300">${fileItem.status}</span>
-                <button data-file-id="${id}" class="remove-file-btn text-gray-400 hover:text-red-500 text-lg leading-none">&times;</button>
-            </div>
-        `;
-        ui.fileList.appendChild(newDiv);
-
-        newDiv.querySelector('.remove-file-btn').addEventListener('click', (e) => {
-            const fileId = e.target.dataset.fileId;
-            const removedFileName = state.files.get(fileId)?.file.name || '未知檔案';
-            state.files.delete(fileId);
-            document.getElementById(`file-item-${fileId}`).remove();
-            logStatus(`已移除檔案: ${removedFileName}`);
-            logActivity(state.currentUser.name, state.currentUser.role, '檔案移除', `移除檔案: ${removedFileName}`);
+            const editedText = ui.modalTextEditor.value.trim();
+            if (editedText) {
+                currentSourceItem.extractedText = editedText;
+                currentSourceItem.content = editedText;
+                currentSourceItem.status = '已編輯並確認'; 
+                renderSourceListItem(currentSourceItem.id);
+                logStatus(`文字來源 (${currentSourceItem.name}) 已編輯並確認。`, 'success');
+            } else {
+                logStatus(`文字來源 (${currentSourceItem.name}) 為空或被清空，已從清單移除。`, 'info');
+                state.sources.delete(currentSourceId);
+                document.getElementById(`source-item-${currentSourceId}`).remove();
+            }
+            ui.textEditModal.style.display = 'none';
+            state.currentEditingSourceId = null; // Clear the tracking ID
             updateExtractionButtonState();
-            if (state.files.size === 0) {
-                state.allExtractedResults = [];
-                showWelcomeScreen(); // Go back to welcome if no files left
-            }
         });
     }
 
-    // Update status for a specific file item
-    function updateFileStatus(id, status, type = 'info') {
-        const fileItem = state.files.get(id);
-        if (fileItem) {
-            fileItem.status = status;
-            const statusEl = document.getElementById(`file-status-${id}`);
-            if (statusEl) {
-                statusEl.textContent = status;
-                statusEl.className = `text-xs mr-2 ${
-                    type === 'error' ? 'text-red-600 dark:text-red-300' :
-                    type === 'success' ? 'text-green-600 dark:text-green-300' :
-                    'text-gray-700 dark:text-gray-200' // Default info status text color
-                }`;
+    // Display welcome message in results panel
+    function showWelcomeScreen() {
+        ui.markdownOutput.value = `歡迎使用教師研習資訊神提取系統！
+        
+您可以透過以下方式提供研習內容：
+1.  **拖曳/上傳檔案**：將 PDF、圖片 (JPG, PNG等) 檔案拖曳至左側虛線框。這些檔案將自動提取文字並可編輯。
+2.  **貼上純文字**：將研習的文字內容直接貼上到下方的文字框中。這些文字可隨時編輯。
+
+**請注意：所有您在此處上傳或貼上的資料，都將被視為同一批研習的相關文件。系統會將它們綜合整理，並盡力辨識及合併重複的研習資訊，最終提供一份精煉的研習列表。**
+**在開始提取前，請務必確認所有來源的內容都已編輯並準備就緒。**
+
+提供所有內容後，填入您的 Google Gemini API 金鑰，然後點擊「開始AI神提取」按鈕。
+AI 會自動分析並整合這些資料，提取關鍵研習資訊並生成標準化的 Markdown 列表顯示在這裡。
+
+祝您可以在研習公文海中如魚得水，使用愉快！:)`;
+        ui.markdownOutput.placeholder = 'AI 研習資訊提取結果將以 Markdown 格式顯示於此，您可以編輯後複製...';
+        ui.copyMarkdownBtn.style.display = 'none';
+    }
+
+    // Helper to add a new source entry to the state and UI
+    function addSourceEntry(sourceData) {
+        const id = `source-${state.sourceIdCounter++}`;
+        const newSource = { id, ...sourceData };
+        state.sources.set(id, newSource);
+        renderSourceListItem(id);
+        updateExtractionButtonState(); // Update after adding
+        return newSource; 
+    }
+
+    // Handles processing for a single uploaded file (PDF, image) or a plain text string
+    async function handleSingleSource(fileOrTextContent) {
+        let sourceType = 'unknown';
+        let name = '';
+        let content = fileOrTextContent; // Default to direct content
+
+        if (fileOrTextContent instanceof File) {
+            if (fileOrTextContent.type.includes('pdf')) {
+                sourceType = 'pdf';
+            } else if (fileOrTextContent.type.includes('image')) {
+                sourceType = 'image';
+            } else {
+                logStatus(`錯誤：檔案 "${fileOrTextContent.name}" 格式不支援 (只接受 PDF/圖片)，已忽略。`, 'error');
+                return;
             }
+            name = fileOrTextContent.name;
+        } else if (typeof fileOrTextContent === 'string') {
+            sourceType = 'text';
+            name = `手動貼上文字 ${state.sourceIdCounter + 1}`;
+            // For text, content is already the string, and extractedText is the same
+            addSourceEntry({ type: sourceType, content: content, name: name, status: '已準備', extractedText: content });
+            return; // Exit early for direct text input, as it's already "processed"
+        }
+        
+        if (sourceType === 'unknown') {
+            logStatus(`錯誤：來源 "${name}" 格式不支援，已忽略。`, 'error');
+            return;
+        }
+
+        // Add the source item immediately to the list with initial status and spinner
+        const newSourceItem = addSourceEntry({ 
+            type: sourceType, 
+            content: content, // This is the File object for files
+            name: name, 
+            status: `<i class="fas fa-spinner fa-spin loading-spinner"></i> 提取中...`, 
+            extractedText: null 
+        });
+
+        // For PDF/Image, process immediately to extract text and then change type to 'text' internally
+        try {
+            const extractedText = await processSourceFileForText(newSourceItem);
+            if (extractedText) {
+                newSourceItem.extractedText = extractedText;
+                newSourceItem.content = extractedText; // Update content to text for consistency in final prompt
+                newSourceItem.type = 'text'; // Change type to 'text' after extraction
+                updateSourceStatus(newSourceItem.id, '已準備', 'success');
+                logStatus(`檔案 "${name}" 文字提取完成，可編輯。`, 'success');
+            } else {
+                newSourceItem.extractedText = `(文件未提取到文字內容或提取失敗)`;
+                newSourceItem.content = newSourceItem.extractedText;
+                newSourceItem.type = 'text';
+                updateSourceStatus(newSourceItem.id, '提取失敗，請編輯', 'error');
+                logStatus(`檔案 "${name}" 文字提取失敗。`, 'error');
+            }
+        } catch (error) {
+            logStatus(`檔案 "${name}" 處理失敗: ${error.message}`, 'error');
+            newSourceItem.extractedText = `(處理失敗: ${error.message})`;
+            newSourceItem.content = newSourceItem.extractedText;
+            newSourceItem.type = 'text';
+            updateSourceStatus(newSourceItem.id, '處理失敗，請編輯', 'error');
+        } finally {
+            renderSourceListItem(newSourceItem.id); 
+            updateExtractionButtonState();
         }
     }
-
-    // Enable/disable buttons based on file list state
-    function updateExtractionButtonState() {
-        ui.startExtractionBtn.disabled = state.files.size === 0;
-        ui.clearAllBtn.disabled = state.files.size === 0;
-        document.querySelectorAll('.remove-file-btn').forEach(btn => btn.disabled = (state.files.size === 0));
-    }
-
-    // Clear all uploaded files and results
-    async function clearAll() {
-        if (state.files.size === 0 && state.allExtractedResults.length === 0) return;
-        const numFiles = state.files.size;
-        state.files.clear();
-        state.fileIdCounter = 0;
-        ui.fileList.innerHTML = '';
-        ui.fileUpload.value = null;
-        state.allExtractedResults = []; // Clear extracted results too
-        logStatus('所有檔案和結果已清空。');
-        logActivity(state.currentUser.name, state.currentUser.role, '清除所有', `清空 ${numFiles} 個檔案和 AI 結果`);
-        updateExtractionButtonState();
-        showWelcomeScreen();
-    }
-
-    // Process a single file (PDF or Image) to extract text
-    async function processFile(fileItem) {
-        updateFileStatus(fileItem.id, '讀取中...');
-        logStatus(`正在處理檔案: ${fileItem.file.name}`);
-        let extractedText = '';
+    
+    // Processes PDF/Image file content to extract text
+    async function processSourceFileForText(sourceItem) {
+        logStatus(`正在提取 "${sourceItem.name}" 的文字內容...`);
+        updateSourceStatus(sourceItem.id, `<i class="fas fa-spinner fa-spin loading-spinner"></i> 提取中...`);
+        let extractedText = null;
 
         try {
-            if (fileItem.file.type.includes('pdf')) {
-                const arrayBuffer = await fileItem.file.arrayBuffer();
+            if (sourceItem.type === 'pdf') {
+                const arrayBuffer = await sourceItem.content.arrayBuffer();
                 const pdf = await libraries.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
                 let fullText = '';
                 for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
+                    const page = await pdf.getPage(i); 
                     const textContent = await page.getTextContent();
                     fullText += textContent.items.map(item => item.str).join(' ') + '\n\n';
                 }
                 extractedText = fullText.trim();
-                if (extractedText) {
-                    updateFileStatus(fileItem.id, 'PDF文字提取完成', 'success');
-                } else {
-                    updateFileStatus(fileItem.id, 'PDF未提取到文字 (可能是掃描圖檔)', 'error');
-                    logStatus(`檔案 ${fileItem.file.name}: PDF 未提取到文字內容。可能是掃描文件，AI 提取可能受影響。`, 'error');
+                if (!extractedText) {
+                    logStatus(`檔案 ${sourceItem.name}: PDF 未提取到文字內容 (可能是掃描圖檔)。`, 'warn');
                 }
-            } else if (fileItem.file.type.includes('image')) {
-                updateFileStatus(fileItem.id, 'OCR 識別中...');
-                const { data: { text } } = await libraries.Tesseract.recognize(fileItem.file, 'chi_tra+eng'); // Supports Chinese and English
+            } else if (sourceItem.type === 'image') {
+                logStatus(`檔案 ${sourceItem.name}: OCR 識別中...`);
+                const { data: { text } } = await libraries.Tesseract.recognize(sourceItem.content, 'chi_tra+eng');
                 extractedText = text.trim();
-                updateFileStatus(fileItem.id, 'OCR 識別完成', 'success');
+                if (!extractedText) {
+                    logStatus(`檔案 ${sourceItem.name}: 圖片未提取到文字內容 (OCR 失敗或無文字)。`, 'warn');
+                }
             }
         } catch (error) {
-            updateFileStatus(fileItem.id, `讀取或OCR失敗: ${error.message}`, 'error');
-            logStatus(`檔案 ${fileItem.file.name} 處理失敗: ${error.message}`, 'error');
-            return null;
+            logStatus(`提取檔案 "${sourceItem.name}" 文字內容失敗: ${error.message}`, 'error');
+            extractedText = null;
         }
-
-        fileItem.text = extractedText;
         return extractedText;
     }
 
-    // Start AI processing for all uploaded files
+
+    // Renders or updates a single source item in the source list
+    function renderSourceListItem(id) {
+        const sourceItem = state.sources.get(id);
+        if (!sourceItem) return; 
+
+        let icon = '';
+        let iconColor = '';
+        switch (sourceItem.type) {
+            case 'pdf': icon = 'fa-file-pdf'; iconColor = 'text-red-500'; break;
+            case 'image': icon = 'fa-image'; iconColor = 'text-blue-500'; break;
+            case 'text': icon = 'fa-file-alt'; iconColor = 'text-green-500'; break; 
+            default: icon = 'fa-file'; iconColor = 'text-gray-500';
+        }
+
+        let existingDiv = document.getElementById(`source-item-${id}`);
+        if (!existingDiv) {
+            existingDiv = document.createElement('div');
+            existingDiv.id = `source-item-${id}`;
+            existingDiv.className = 'flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-sm source-item';
+            ui.sourceList.appendChild(existingDiv);
+        }
+        
+        let editButtonHtml = '';
+        // Text files (including PDF text, OCR text, pasted text) get a generic text edit button
+        if (sourceItem.extractedText || sourceItem.status.includes('失敗') || sourceItem.status.includes('內容為空') || sourceItem.status.includes('API金鑰缺失')) { 
+            editButtonHtml = `<button data-source-id="${id}" class="edit-text-source-btn edit-source-btn" title="編輯內容"><i class="fa-solid fa-pen-to-square"></i></button>`;
+        }
+        
+        // Update the inner HTML of the item
+        existingDiv.innerHTML = `
+            <div class="flex items-center flex-grow overflow-hidden">
+                <i class="fas ${icon} ${iconColor} mr-3 flex-shrink-0"></i>
+                <span class="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">${sourceItem.name}</span>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+                <span id="source-status-${id}" class="text-xs text-gray-500 dark:text-gray-300"></span>
+                ${editButtonHtml}
+                <button data-source-id="${id}" class="remove-source-btn text-gray-400 hover:text-red-500 text-lg leading-none">&times;</button>
+            </div>
+        `;
+        
+        // Re-attach event listeners for dynamically added/updated buttons
+        existingDiv.querySelector('.remove-source-btn').onclick = (e) => {
+            const sourceId = e.currentTarget.dataset.sourceId;
+            const removedSourceName = state.sources.get(sourceId)?.name || '未知來源';
+            state.sources.delete(sourceId);
+            document.getElementById(`source-item-${sourceId}`).remove();
+            logStatus(`已移除來源: ${removedSourceName}`);
+            logActivity(state.currentUser.name, state.currentUser.role, '來源移除', `移除來源: ${removedSourceName}`);
+            updateExtractionButtonState();
+            if (state.sources.size === 0) {
+                state.allExtractedResults = []; // Clear results if no sources left
+                showWelcomeScreen();
+            }
+        };
+
+        const editTextButton = existingDiv.querySelector('.edit-text-source-btn');
+        if (editTextButton) {
+            editTextButton.onclick = () => {
+                showTextEditModal(sourceItem, sourceItem.extractedText || '');
+            };
+        }
+
+        const statusEl = existingDiv.querySelector(`#source-status-${id}`);
+        if (statusEl) {
+            statusEl.innerHTML = sourceItem.status; 
+            statusEl.className = `text-xs mr-2 ${
+                sourceItem.status.includes('錯誤') || sourceItem.status.includes('失敗') || sourceItem.status.includes('API金鑰缺失') || sourceItem.status.includes('內容為空') ? 'text-red-600 dark:text-red-300' :
+                sourceItem.status.includes('完成') || sourceItem.status.includes('就緒') || sourceItem.status.includes('確認') ? 'text-green-600 dark:text-green-300' :
+                (sourceItem.status.includes('提取中') || sourceItem.status.includes('OCR 識別中') || sourceItem.status.includes('等待處理')) ? 'text-blue-600 dark:text-blue-300' : 
+                'text-gray-700 dark:text-gray-200' 
+            }`;
+        }
+    }
+
+    // Show the generic text editing modal (for text sources like pasted text or PDF/Image OCR results)
+    function showTextEditModal(sourceItem, textContent) {
+        state.currentEditingSourceId = sourceItem.id; // Track which item is being edited
+
+        ui.modalTextFilename.textContent = sourceItem.name;
+        ui.modalTextEditor.value = textContent;
+        ui.modalTextEditor.placeholder = '文字內容在此...';
+        ui.textEditModal.style.display = 'flex';
+        updateExtractionButtonState(); 
+    }
+
+
+    // Clears all uploaded sources and results
+    async function clearAll() {
+        if (state.sources.size === 0 && state.allExtractedResults.length === 0 && !state.isProcessingInProgress) return;
+        
+        if (state.isProcessingInProgress) {
+            alert("正在進行 AI 處理，請稍候。");
+            return;
+        }
+        const isModalOpen = ui.textEditModal.style.display === 'flex';
+        if (isModalOpen) {
+            alert("請先關閉編輯視窗再清空所有。");
+            return;
+        }
+
+        const numSources = state.sources.size;
+        state.sources.clear();
+        state.sourceIdCounter = 0;
+        ui.sourceList.innerHTML = '';
+        ui.fileUpload.value = null;
+        ui.plainTextInput.value = '';
+        state.allExtractedResults = []; // Clear extracted results too
+        logStatus('所有來源和結果已清空。');
+        logActivity(state.currentUser.name, state.currentUser.role, '清除所有', `清空 ${numSources} 個來源和 AI 結果`);
+        updateExtractionButtonState();
+        showWelcomeScreen();
+    }
+
+    // Processes extracted text content from a source to prepare for AI summarization
+    async function processSourceForAISummarization(sourceItem) {
+        if (!sourceItem.extractedText || sourceItem.extractedText.trim().length === 0) {
+            logStatus(`來源 "${sourceItem.name}" 沒有有效的提取文字內容，將不納入研習資訊提取。`, 'error');
+            return null;
+        }
+        
+        updateSourceStatus(sourceItem.id, '已準備', 'success'); 
+        return sourceItem.extractedText;
+    }
+
+
+    // Initiates AI processing for all prepared sources to generate a single consolidated record
     async function startAiProcessing() {
-        const apiKey = ui.apiKeyInput.value.trim();
-        if (!apiKey) {
+        const geminiApiKey = ui.apiKeyInput.value.trim();
+        if (!geminiApiKey) {
             logStatus('錯誤：請先輸入您的 Google Gemini API 金鑰。', 'error');
             ui.apiKeyInput.focus();
             return;
         }
-        if (state.files.size === 0) {
-            logStatus('錯誤：沒有可處理的檔案。', 'error');
+        if (state.sources.size === 0) {
+            logStatus('錯誤：沒有可處理的來源。', 'error');
             return;
         }
 
-        setButtonsState(true);
-        ui.startExtractionBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> AI 提取中...`;
-        ui.markdownOutput.value = ''; // Clear previous results
-        ui.markdownOutput.placeholder = '正在提取資訊...請稍候...';
-        ui.copyMarkdownBtn.style.display = 'none';
-
-        state.allExtractedResults = []; // Clear previous AI results
-        let totalTrainingsExtracted = 0; // Changed variable name
-
-        for (const fileItem of state.files.values()) {
-            const extractedText = await processFile(fileItem);
-            if (!extractedText) {
-                logStatus(`檔案 ${fileItem.file.name} 未能提取到文字，跳過 AI 處理。`, 'error');
-                continue;
-            }
-            if (extractedText.length < 50) { 
-                 logStatus(`檔案 ${fileItem.file.name} 提取到的文字過短，可能影響 AI 結果。`, 'info');
-            }
-
-            updateFileStatus(fileItem.id, 'AI 分析中...');
-            logStatus(`檔案 ${fileItem.file.name}: 正在聯繫 AI 進行資訊提取...`);
-
-            try {
-                const aiResponse = await callGeminiApi(generateTrainingPrompt(extractedText), apiKey); // Changed prompt function
-                const parsedData = JSON.parse(aiResponse);
-
-                const trainings = Array.isArray(parsedData) ? parsedData : (parsedData ? [parsedData] : []); // Changed variable name
-
-                // Store full data, including original file name
-                fileItem.data = trainings;
-                state.allExtractedResults.push(...trainings.map(s => ({ ...s, sourceFile: fileItem.file.name }))); // Changed variable name
-                totalTrainingsExtracted += trainings.length; // Changed variable name
-                
-                updateFileStatus(fileItem.id, 'AI 提取完成', 'success');
-                logStatus(`檔案 ${fileItem.file.name}: AI 資訊提取成功。`, 'success');
-                logActivity(state.currentUser.name, state.currentUser.role, 'AI提取成功', `檔案 "${fileItem.file.name}" AI提取完成，共 ${trainings.length} 筆資料`);
-
-            } catch (error) {
-                fileItem.data = { error: error.message };
-                updateFileStatus(fileItem.id, `AI 提取失敗: ${error.message}`, 'error');
-                logStatus(`檔案 ${fileItem.file.name} AI 提取失敗: ${error.message}`, 'error');
-                logActivity(state.currentUser.name, state.currentUser.role, 'AI提取失敗', `檔案 "${fileItem.file.name}" AI提取失敗: ${error.message}`);
+        // Final pre-check: ensure all sources are properly prepared
+        for (const sourceItem of state.sources.values()) {
+            if (!sourceItem.extractedText || sourceItem.extractedText.trim().length === 0 || sourceItem.status.includes('失敗') || sourceItem.status.includes('API金鑰缺失') || sourceItem.status.includes('內容為空') || sourceItem.status.includes('提取中') || sourceItem.status.includes('等待處理')) {
+                logStatus(`錯誤：來源 "${sourceItem.name}" 尚未準備就緒或內容為空。請檢查並編輯。`, 'error');
+                return; // Stop processing
             }
         }
 
-        updateMarkdownOutputArea(state.allExtractedResults); 
-        setButtonsState(false);
-        ui.startExtractionBtn.innerHTML = `<i class="fa-solid fa-brain"></i> 開始AI神提取`;
-        logStatus(`所有檔案處理完畢。共提取到 ${totalTrainingsExtracted} 筆教師研習資訊。`, 'success'); // Changed message
+        state.isProcessingInProgress = true; // Set general processing state
+        updateExtractionButtonState(); // Update button states (should disable them)
+        ui.startExtractionBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> AI提取中...`;
+        ui.markdownOutput.value = ''; 
+        ui.markdownOutput.placeholder = '正在分析內容並提取研習資訊...請稍候...';
+        ui.copyMarkdownBtn.style.display = 'none';
+
+        state.allExtractedResults = []; 
+        let totalTrainingsExtracted = 0; 
+        const allSourceTexts = [];
+        const sourceNames = []; 
+
+        for (const sourceItem of state.sources.values()) {
+            const textContent = await processSourceForAISummarization(sourceItem); 
+            if (!textContent) {
+                logStatus(`來源 ${sourceItem.name} 未能提取到文字，將不納入研習資訊提取。`, 'error');
+                continue;
+            }
+            if (textContent.length < 50) { 
+                 logStatus(`來源 ${sourceItem.name} 提取到的文字過短，可能影響 AI 結果。`, 'warn');
+            }
+            allSourceTexts.push(`--- 來源: ${sourceItem.name} ---\n${textContent}\n`);
+            sourceNames.push(sourceItem.name);
+        }
+
+        if (allSourceTexts.length === 0) {
+            logStatus('錯誤：所有來源未能成功提取文字，無法生成研習資訊。', 'error');
+            state.isProcessingInProgress = false;
+            updateExtractionButtonState();
+            ui.startExtractionBtn.innerHTML = `<i class="fa-solid fa-brain"></i> 開始AI神提取`;
+            updateMarkdownOutputArea([]);
+            return;
+        }
+
+        logStatus(`正在聚合 ${allSourceTexts.length} 個來源的文字內容，準備送交 AI 分析...`, 'info');
+        const combinedText = allSourceTexts.join('\n\n'); 
+        const prompt = generateTrainingPrompt(combinedText, sourceNames); // Pass sourceNames for context
+
+        logStatus(`正在聯繫 AI 進行研習資訊提取...`);
+
+        try {
+            const aiResponse = await callGeminiApi(prompt, geminiApiKey);
+            const parsedData = JSON.parse(aiResponse);
+
+            const trainings = Array.isArray(parsedData) ? parsedData : (parsedData ? [parsedData] : []);
+
+            state.allExtractedResults.push(...trainings.map(s => ({ ...s, sourceFiles: sourceNames.join(', ') }))); // Store all source names
+            totalTrainingsExtracted += trainings.length;
+            
+            logStatus(`教師研習資訊提取成功。`, 'success');
+            logActivity(state.currentUser.name, state.currentUser.role, 'AI提取成功', `從多個來源提取到 ${trainings.length} 筆研習資訊`);
+            
+        } catch (error) {
+            state.allExtractedResults.push({ error: error.message }); // Store error in results
+            logStatus(`AI提取失敗: ${error.message}`, 'error');
+            logActivity(state.currentUser.name, state.currentUser.role, 'AI提取失敗', `教師研習資訊提取失敗: ${error.message}`);
+        } finally {
+            logStatus(`所有來源處理完畢。共提取到 ${totalTrainingsExtracted} 筆教師研習資訊。`, 'success'); 
+            updateMarkdownOutputArea(state.allExtractedResults); 
+            state.isProcessingInProgress = false;
+            updateExtractionButtonState(); 
+            ui.startExtractionBtn.innerHTML = `<i class="fa-solid fa-brain"></i> 開始AI神提取`;
+        }
     }
 
     // Call Google Gemini API
@@ -972,7 +1333,7 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
                 generationConfig: {
                     responseMimeType: "application/json",
                     temperature: 0.1, 
-                    maxOutputTokens: 2048
+                    maxOutputTokens: 4096 // Increased max output tokens for potentially multiple trainings
                 }
             })
         });
@@ -988,29 +1349,35 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
     }
 
     // Generate prompt for AI extraction (UPDATED FOR TEACHER TRAINING)
-    function generateTrainingPrompt(text) {
-        return `你是一個專業的教師研習資訊提取助手。我將提供你從文件（PDF或圖片）中提取的純文字內容。你的任務是從這些文字中提取出特定的教師研習資訊。請注意，一份文件中可能包含一個或多個研習的資訊。
+    function generateTrainingPrompt(combinedText, sourceNames) {
+        return `你是一個專業的教師研習資訊提取助手。我將提供你從多個文件（PDF、圖片OCR、手動貼上的純文字）中綜合提取的純文字內容。這些內容可能來自不同的文件，但都關於**一批教師研習活動**。
+
+你的核心任務是：
+1.  **綜合理解所有來源的資訊**。
+2.  **提取所有研習的關鍵細節**。
+3.  **如果發現來自不同來源的資訊明確指向同一個研習**（例如研習名稱、日期或公文文號高度一致），請將其視為同一筆研習，並**合併所有相關資訊，避免重複**。若有資訊衝突，請採用更完整、更具體的描述。
+4.  最後，生成**一份單一、精煉的 JSON 格式研習資訊陣列**。
 
 你需要提取以下所有相關欄位：
-- **公文文號 (document_number)**: 該研習或通知的正式文件編號。如果沒有明確指出，請填寫 null。
+- **公文文號 (document_number)**: 該研習或通知的正式文件編號。請將所有相關公文文號整理成一個列表。如果沒有明確指出，請填寫 null。
 - **研習名稱 (training_name)**: 研習的完整名稱。
 - **研習對象及資格 (target_audience_eligibility)**: 研習參與者必須符合的所有條件，例如教師職稱、學科領域、學校層級等，請盡可能詳細但簡潔地列出，使用條列式。
 - **研習地點 (training_location)**: 研習進行的地點（例如：線上會議室連結、具體地址、學校名稱）。如果沒有明確指出，請填寫 null。
-- **研習時間 (training_dates)**: 研習的開始與結束日期及時間。請盡量提取具體日期和時間範圍 (格式 YYYY-MM-DD HH:MM)。如果僅有日期，格式 YYYY-MM-DD。如果沒有明確指出，請填寫 null。
+- **研習時間 (training_dates)**: 研習的開始與結束日期及時間。請盡量提取具體日期和時間範圍 (格式 YYYY-MM-DD HH:MM)。如果僅有日期，格式 YYYY-MM-DD。如果研習有多個場次或日期，請列出所有日期時間，使用逗號分隔。如果沒有明確指出，請填寫 null。
 - **報名截止日期 (registration_deadline)**: 報名參加研習的截止日期，請盡量提取具體日期 (格式 YYYY-MM-DD)。如果沒有明確指出，請填寫 null。
-- **主辦單位 (organizer)**: 舉辦或協辦此研習的單位名稱。
+- **主辦單位 (organizer)**: 舉辦或協辦此研習的所有單位名稱，使用逗號分隔。
 - **聯絡資訊 (contact_info)**: 研習相關的聯絡人、電話、電子郵件或其他聯絡方式。
 - **研習時數或學分 (hours_credits)**: 完成研習後可獲得的研習時數或學分。
 - **報名費用 (registration_fee)**: 參加研習所需的費用，若免費請註明「免費」。
 - **注意事項 (notes)**: 其他重要的研習資訊或說明，例如攜帶物品、報到方式等。
 
-請嚴格以 JSON 陣列的格式返回結果。陣列中的每個物件代表一個研習的完整資訊。如果某個欄位資訊在原文中不存在，請填寫 \`null\`。請確保 JSON 格式正確無誤。
+請嚴格以 JSON 陣列的格式返回結果。陣列中的每個物件代表一個獨立且合併過的研習資訊。如果某個欄位資訊在原文中不存在，請填寫 \`null\`。請確保 JSON 格式正確無誤。
 
 範例 JSON 輸出格式：
 \`\`\`json
 [
   {
-    "document_number": "研習字第1130801001號",
+    "document_number": ["研習字第1130801001號"],
     "training_name": "AI融入教學創新應用工作坊",
     "target_audience_eligibility": [
       "全國國民中小學在職教師",
@@ -1027,7 +1394,7 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
     "notes": "請自備筆記型電腦及充電設備。"
   },
   {
-    "document_number": null,
+    "document_number": ["公文1130901號", "文號1130902號"],
     "training_name": "線上班級經營策略研討會",
     "target_audience_eligibility": [
       "幼兒園、國小教師",
@@ -1035,41 +1402,38 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
       "不限資歷"
     ],
     "training_location": "Google Meet 線上會議 (連結將於報名後提供)",
-    "training_dates": "2024-10-20 14:00-17:00",
+    "training_dates": "2024-10-20 14:00-17:00, 2024-10-27 14:00-17:00",
     "registration_deadline": "2024-10-15",
-    "organizer": "臺灣教育研究院",
+    "organizer": "臺灣教育研究院, 師大附中",
     "contact_info": "報名組 (02)9876-5432",
     "hours_credits": "3 學分",
     "registration_fee": "新台幣 500 元",
-    "notes": null
+    "notes": "本研討會分為兩部分，需全程參與。"
   }
 ]
 \`\`\`
 
-以下是從文件提取的文字內容：
----\n${text}\n---`;
+以下是從所有來源綜合提取的文字內容：
+**[所有來源名稱：${sourceNames.join(', ')}]**
+---\n${combinedText}\n---`;
     }
 
     // Helper to format date strings for display (client-side)
     function formatDate(dateString) {
-        if (!dateString || dateString.toLowerCase() === 'null' || dateString === '無' || dateString === '') return '無'; // Just return "無" string for Markdown
+        if (!dateString || dateString.toLowerCase() === 'null' || dateString === '無' || dateString === '') return '無';
         try {
-            // Attempt to parse various date-time formats, prioritizing YYYY-MM-DD
+            // Handle multiple dates separated by comma
+            if (dateString.includes(',')) {
+                return dateString.split(',').map(d => formatDate(d.trim())).join(', ');
+            }
+
             const matchDateOnly = dateString.match(/(\d{4}-\d{2}-\d{2})/);
             if (matchDateOnly) {
                 const date = new Date(matchDateOnly[1]);
-                if (!isNaN(date.getTime())) {
-                    return matchDateOnly[1]; // Return YYYY-MM-DD
-                }
+                if (!isNaN(date.getTime())) { return matchDateOnly[1]; }
             }
-            
-            // If date-only failed or not found, try to return as is if it looks like a date range
-            const matchDateTime = dateString.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}-\d{2}:\d{2})/);
-            if (matchDateTime) {
-                return dateString; // Return date-time range as is
-            }
-            
-            // Fallback: Try a general date parse, then return original if invalid
+            const matchDateTime = dateString.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?:-\d{2}:\d{2})?)/);
+            if (matchDateTime) { return dateString; }
             const date = new Date(dateString);
             if (!isNaN(date.getTime())) { 
                 const year = date.getFullYear();
@@ -1077,8 +1441,7 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
                 const day = String(date.getDate()).padStart(2, '0');
                 return `${year}-${month}-${day}`;
             }
-            
-            return dateString; // Return original string if not a valid date
+            return dateString;
         } catch (e) {
             console.error("Error formatting date:", dateString, e);
             return dateString;
@@ -1086,13 +1449,19 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
     }
 
 
-    // Generates a Markdown string for a single training item (UPDATED FOR TEACHER TRAINING)
+    // Generates a Markdown string for a single training item
     function formatSingleTrainingAsMarkdown(data, index) {
-        let markdown = `## 🍎📚 第 ${index + 1} 筆教師研習資訊 ✍️📅\n\n`; // Changed title and icons
+        // Handle error case first
+        if (data && data.error) {
+            return `## ❌ 第 ${index + 1} 筆研習資訊提取失敗 ❌\n\n**錯誤訊息**:\n\`\`\`\n${data.error}\n\`\`\`\n\n這可能是由於 API 回應格式不正確或內容問題。`;
+        }
+
+        let markdown = `## 🍎📚 第 ${index + 1} 筆教師研習資訊 ✍️📅\n\n`; 
         markdown += `--- \n`;
         markdown += `✨ **研習名稱**: ${data.training_name || '無'}\n`;
-        markdown += `📄 **公文文號**: ${data.document_number || '無'}\n`;
-        markdown += `🙋‍♀️ **研習對象及資格**:\n`; // Changed icon and field name
+        // Document Number can be an array now
+        markdown += `📄 **公文文號**: ${Array.isArray(data.document_number) && data.document_number.length > 0 ? data.document_number.join(', ') : '無'}\n`;
+        markdown += `🙋‍♀️ **研習對象及資格**:\n`; 
         if (Array.isArray(data.target_audience_eligibility) && data.target_audience_eligibility.length > 0) {
             data.target_audience_eligibility.forEach(item => {
                 markdown += `  - ${item}\n`;
@@ -1100,15 +1469,15 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
         } else {
             markdown += `  - 無\n`;
         }
-        markdown += `📍 **研習地點**: ${data.training_location || '無'}\n`; // Changed icon and field name
-        markdown += `⏰ **研習時間**: ${data.training_dates || '無'}\n`; // Changed icon and field name
-        markdown += `📝 **報名截止日期**: ${formatDate(data.registration_deadline) || '無'}\n`; // Changed icon and field name
-        markdown += `🏢 **主辦單位**: ${data.organizer || '無'}\n`; // Changed icon and field name
-        markdown += `📞 **聯絡資訊**: ${data.contact_info || '無'}\n`; // Changed icon and field name
-        markdown += `🎓 **研習時數或學分**: ${data.hours_credits || '無'}\n`; // Changed icon and field name
-        markdown += `💲 **報名費用**: ${data.registration_fee || '無'}\n`; // Changed icon and field name
-        markdown += `⚠️ **注意事項**: ${data.notes || '無'}\n`; // Changed icon and field name
-        markdown += `📁 **來源檔案**: _${data.sourceFile || '無'}_\n`;
+        markdown += `📍 **研習地點**: ${data.training_location || '無'}\n`; 
+        markdown += `⏰ **研習時間**: ${formatDate(data.training_dates) || '無'}\n`; 
+        markdown += `📝 **報名截止日期**: ${formatDate(data.registration_deadline) || '無'}\n`; 
+        markdown += `🏢 **主辦單位**: ${data.organizer || '無'}\n`; 
+        markdown += `📞 **聯絡資訊**: ${data.contact_info || '無'}\n`; 
+        markdown += `🎓 **研習時數或學分**: ${data.hours_credits || '無'}\n`; 
+        markdown += `💲 **報名費用**: ${data.registration_fee || '無'}\n`; 
+        markdown += `⚠️ **注意事項**: ${data.notes || '無'}\n`; 
+        markdown += `📁 **資料來源**: _${data.sourceFiles || '無'}_\n`; // Changed to sourceFiles
         markdown += `--- \n\n`;
         return markdown;
     }
@@ -1118,19 +1487,19 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
     function updateMarkdownOutputArea(results) {
         if (results.length === 0) {
             ui.markdownOutput.value = '';
-            ui.markdownOutput.placeholder = '未能從檔案中提取到任何教師研習資訊。'; // Changed message
+            ui.markdownOutput.placeholder = '未能從所有提供的來源中提取到任何教師研習資訊。';
             ui.copyMarkdownBtn.style.display = 'none';
             return;
         }
 
         let fullMarkdown = '';
         results.forEach((item, index) => {
-            fullMarkdown += formatSingleTrainingAsMarkdown(item, index); // Changed function call
+            fullMarkdown += formatSingleTrainingAsMarkdown(item, index);
         });
 
         ui.markdownOutput.value = fullMarkdown;
-        ui.markdownOutput.placeholder = 'AI 提取結果已顯示於此，您可以編輯後複製...';
-        ui.copyMarkdownBtn.style.display = 'inline-flex'; // Show copy button
+        ui.markdownOutput.placeholder = 'AI 研習資訊提取結果已顯示於此，您可以編輯後複製...';
+        ui.copyMarkdownBtn.style.display = 'inline-flex';
     }
 
 
@@ -1164,45 +1533,6 @@ AI 會自動分析文件內容，並將提取到的教師研習資訊整理成 M
                 buttonElement.classList.add(...originalClasses.filter(cls => cls.startsWith('btn-secondary-custom'))); 
             }, 1500);
         });
-    }
-
-    // Logging function for client-side demo (outputs to status log and console)
-    function logStatus(message, type = 'info') {
-        const timestamp = new Date().toLocaleTimeString('zh-TW', { hour12: false });
-        const logEntry = document.createElement('p');
-        
-        logEntry.className = `py-1`; 
-        
-        let messageTextColorClass = 'text-gray-700 dark:text-gray-200'; // Default text color for general info
-        if (type === 'error') {
-            messageTextColorClass = 'text-red-600 dark:text-red-300'; // Specific brighter color for errors in dark mode
-        } else if (type === 'success') {
-            messageTextColorClass = 'text-green-600 dark:text-green-300'; // Specific brighter color for success in dark mode
-        }
-
-        // Apply timestamp color and then message color
-        logEntry.innerHTML = `<span class="text-gray-500 dark:text-gray-400">[${timestamp}]</span> <span class="${messageTextColorClass}">&gt; ${message}</span>`;
-        ui.statusLog.appendChild(logEntry);
-        ui.statusLog.scrollTop = ui.statusLog.scrollHeight; // Auto-scroll to bottom
-        
-        // Also log to console for debugging
-        if (type === 'error') console.error(`[STATUS] ${message}`);
-        else if (type === 'success') console.log(`[STATUS] ${message}`);
-        else console.info(`[STATUS] ${message}`);
-    }
-
-    // Logging function for client-side demo (outputs to console only) - separate from status log
-    function logActivity(userName, userRole, activityType, description) {
-        const timestamp = new Date().toLocaleString('zh-TW', { hour12: false });
-        console.log(`[ACTIVITY LOG - Frontend] ${timestamp} | User: ${userName} (${userRole}) | Type: ${activityType} | Desc: ${description}`);
-    }
-    
-    // Helper to set buttons state (disabled/enabled)
-    function setButtonsState(processing) {
-        ui.fileUpload.disabled = processing;
-        ui.startExtractionBtn.disabled = processing || state.files.size === 0;
-        ui.clearAllBtn.disabled = processing;
-        document.querySelectorAll('.remove-file-btn').forEach(btn => btn.disabled = processing);
     }
 
     // Call init when the DOM is fully loaded
