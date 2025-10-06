@@ -1417,7 +1417,7 @@ AI 會自動分析並整合這些資料，提取關鍵研習資訊並生成標�
 
     // Call Google Gemini API
     async function callGeminiApi(prompt, apiKey) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key==${apiKey}`;
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
